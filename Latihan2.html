@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello World</title>
+        <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+        <!-- Don't use this in production: -->
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
+            const container = document.getElementById("root");
+            const root = ReactDOM.createRoot(container);
+
+            function ChildComponent({ handleClick, count }) {
+                let disabled = true;
+
+                if (count > 9 || count < 0) {
+                    disabled = false;
+                } else if (count > 9 || count < 0) {
+                    disabled = true;
+                }
+                return (
+                    <div>
+                        <button
+                            disabled={count > 9 ? true : false}
+                            onClick={() => handleClick("increment")}
+                        >
+                            Increment
+                        </button>
+                        <button
+                            disabled={count < 0 ? true : false}
+                            onClick={() => handleClick("decrement")}
+                        >
+                            Decrement
+                        </button>
+                        <button
+                            onClick={() => handleClick("reset")}
+                            disabled={disabled}
+                        >
+                            Reset
+                        </button>
+                    </div>
+                );
+            }
+
+            function ParentComponent() {
+                const [count, setCount] = React.useState(0);
+
+                const handleClick = operation => {
+                    if (operation === "increment") {
+                        setCount(count + 1);
+                    } else if (operation === "decrement") {
+                        setCount(count - 1);
+                    } else if (operation === "reset") {
+                        setCount(0);
+                    }
+                };
+
+                return (
+                    <div>
+                        <p>Count: {count > 9 || count < 0 ? "done!" : count}</p>
+                        <ChildComponent
+                            handleClick={handleClick}
+                            count={count}
+                        />
+                    </div>
+                );
+            }
+
+            root.render(<ParentComponent />);
+        </script>
+    </body>
+</html>
